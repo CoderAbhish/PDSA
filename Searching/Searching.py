@@ -1,27 +1,34 @@
 
 class BinarySearch:
-    orderedLst = []
-    targetVal = 0
-    def __init__(object, orderedList, targetVal):
-        object.orderedLst = orderedList
-        object.targetVal = targetVal
-        
-    def iterativeMthd(object):
-        n = len(object.orderedLst)
+    def iterativeMthd(object, orderedLst, targetVal):
+        n = len(orderedLst)
         if n < 1:
-            return object.orderedLst
+            return orderedLst
         
         (firstIndex, mid, lastIndex) = (0, n//2, n-1)
         while lastIndex >= firstIndex:
-            if object.orderedLst[mid] == object.targetVal:
+            if orderedLst[mid] == targetVal:
                 return mid  
-            elif object.orderedLst[mid] < object.targetVal:
+            elif orderedLst[mid] < targetVal:
                 firstIndex = mid+1
             else:
                 lastIndex = mid-1
                 
-            mid = firstIndex + (lastIndex - firstIndex)//2
+            mid = (lastIndex + firstIndex)//2
         return -1
+    def recursiveMthd(object, orderedLst, targetVal, low, high):
+        if high - low < 0:
+            return -1
+        mid = (high + low)//2
+        if orderedLst[mid]== targetVal:
+            return mid
+        elif targetVal > orderedLst[mid]:
+            return(object.recursiveMthd(orderedLst, targetVal, mid+1, high))
+        else:
+            return(object.recursiveMthd(orderedLst, targetVal, low, mid-1))
     
-search = BinarySearch([2, 4, 6, 7, 12, 15, 17], 4)
-print(search.iterativeMthd())
+search = BinarySearch()
+lst = [2, 4, 6, 7, 12, 15, 17]
+target = 15
+print(search.iterativeMthd(lst, target))
+print(search.recursiveMthd(lst, target, 0, len(lst)-1))
